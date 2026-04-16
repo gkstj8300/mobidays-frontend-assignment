@@ -7,7 +7,7 @@
 | 문서명 | 상태 관리 설계서 |
 | 버전 | v1.0.0 |
 | 작성일 | 2026-04-16 |
-| 기반 문서 | `.claude/spec/MAIN.md`, `.claude/design/01-tech-stack.md` |
+| 기반 문서 | `.claude/spec/MAIN.md`, `.claude/frontend/01-tech-stack.md` |
 
 ### 변경 이력
 

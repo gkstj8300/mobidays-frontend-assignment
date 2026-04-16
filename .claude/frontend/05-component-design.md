@@ -7,7 +7,7 @@
 | 문서명 | 컴포넌트 설계서 |
 | 버전 | v1.0.0 |
 | 작성일 | 2026-04-16 |
-| 기반 문서 | `.claude/spec/MAIN.md`, `.claude/design/03-folder-structure.md` |
+| 기반 문서 | `.claude/spec/MAIN.md`, `.claude/frontend/03-folder-structure.md` |
 
 ### 변경 이력
 
