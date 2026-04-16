@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root {
+  /* Primary (Deep Blue) */
+  --color-primary: #0D47A1;
+  --color-primary-hover: #2162C3;
+  --color-primary-accent: #3C79D7;
+  --color-primary-selected: #6096E6;
+  --color-primary-action: #007BEE;
+  --color-primary-disabled: rgba(13, 71, 161, 0.4);
+  --color-primary-light: #ECF3FD;
+
+  /* Gray Scale */
+  --color-text-primary: #131416;
+  --color-text-secondary: #464C53;
+  --color-text-disabled: #6D7882;
+  --color-text-placeholder: #AEB9C2;
+  --color-border: #CED5DB;
+  --color-border-disabled: #E0E5EA;
+  --color-surface: #F4F5F6;
+  --color-surface-pressed: #ECEFF1;
+  --color-table-header: #F7FAFF;
+  --color-card: #FAFCFF;
+
+  /* Status */
+  --color-status-active-bg: #DDFFD3;
+  --color-status-active-text: #1C9E34;
+  --color-status-paused-bg: #FFEFDE;
+  --color-status-paused-text: #FF9030;
+  --color-status-ended-bg: #EBEBEB;
+  --color-status-ended-text: #7D7D7D;
+  --color-status-error-bg: #FFEBEA;
+  --color-status-error-text: #FF6161;
+
+  /* Stroke */
+  --color-stroke-default: #CED5DB;
+  --color-stroke-focused: #6096E6;
+  --color-stroke-error: #F0312B;
+  --color-stroke-table: #E0E4E8;
+
+  /* Overlay */
+  --color-overlay: rgba(5, 27, 60, 0.5);
+
+  /* Shadow */
+  --shadow-card: 0px 10px 20px 0px rgba(22, 45, 71, 0.2);
+}
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: var(--color-text-primary);
+
+  --font-pretendard: 'Pretendard', sans-serif;
+  --font-paperlogy: 'Paperlogy', sans-serif;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-pretendard);
+}
