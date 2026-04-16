@@ -7,13 +7,14 @@
 | 문서명 | 컴포넌트 설계서 |
 | 버전 | v1.0.0 |
 | 작성일 | 2026-04-16 |
-| 기반 문서 | `.claude/spec/MAIN.md`, `.claude/frontend/03-folder-structure.md` |
+| 기반 문서 | `.claude/spec/MAIN.md`, `.claude/frontend/03-folder-structure.md`, `.claude/frontend/07-design-system.md` |
 
 ### 변경 이력
 
 | 버전 | 날짜 | 작성자 | 변경 내용 |
 |------|------|--------|-----------|
 | v1.0.0 | 2026-04-16 | Claude | 신규 작성 |
+| v1.1.0 | 2026-04-16 | Claude | Figma 디자인 시스템 반영 — Badge 색상 매핑, 공통 UI 컴포넌트 상세 추가 |
 
 ---
 
@@ -120,7 +121,7 @@ app/page.tsx
 | 컬럼 | 데이터 키 | 정렬 | 포맷 |
 |------|-----------|------|------|
 | 캠페인명 | `name` | X | 텍스트 |
-| 상태 | `status` | X | Badge (진행중=초록, 일시중지=주황, 종료=회색) |
+| 상태 | `status` | X | Badge (진행중=`#DDFFD3`/`#1C9E34`, 일시중지=`#FFEFDE`/`#FF9030`, 종료=`#EBEBEB`/`#7D7D7D`) |
 | 매체 | `platform` | X | 텍스트 |
 | 집행기간 | `startDate ~ endDate` | O | YYYY.MM.DD ~ YYYY.MM.DD |
 | 총 집행금액 | `totalCost` | O | ₩{숫자} (천 단위 콤마) |
@@ -212,10 +213,13 @@ app/page.tsx
 
 ## 5. 공통 UI 컴포넌트 (shared/ui)
 
-| 컴포넌트 | 용도 |
-|----------|------|
-| `Modal` | 캠페인 등록 모달 래퍼. 오버레이 + 닫기 |
-| `Badge` | 상태 뱃지 (진행중/일시중지/종료). 색상 매핑 |
-| `Button` | 범용 버튼. variant(primary/secondary/ghost), size |
-| `Checkbox` | 테이블 체크박스. 전체 선택 / 개별 선택 |
-| `Select` | 드롭다운. 일괄 상태 변경, 매체 선택 |
+> Figma 컴포넌트와의 상세 매핑은 `.claude/frontend/07-design-system.md` 섹션 7을 참조한다.
+
+| 컴포넌트 | Figma 컴포넌트 | 용도 |
+|----------|---------------|------|
+| `Modal` | — (직접 구현) | 캠페인 등록 모달. 오버레이(`rgba(5,27,60,0.5)`) + 닫기 |
+| `Badge` | `tag_state` | 상태 뱃지. Status 색상 토큰 적용 |
+| `Button` | `button` | variant(primary/secondary/tertiary), size(default/small). height 36px/30px, radius 8px |
+| `Input` | `input` | 검색, 폼 입력. radius 8px, stroke 1px. focused/error 상태 |
+| `Checkbox` | `checkbox` | 테이블 체크박스. select/default/hover/disable 4상태 |
+| `Select` | `Dropdown` | 드롭다운. 일괄 상태 변경, 매체 선택. default/open/hover/disabled 4상태 |
