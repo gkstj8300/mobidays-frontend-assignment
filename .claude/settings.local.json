@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:misol.notion.site)",
+      "Bash(mkdir -p .claude/spec)",
+      "Bash(mv .claude/00_Main/MAIN.md .claude/spec/MAIN.md)",
+      "Bash(rmdir .claude/00_Main)"
+    ]
+  }
+}
