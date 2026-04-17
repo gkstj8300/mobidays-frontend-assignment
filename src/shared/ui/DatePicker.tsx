@@ -7,6 +7,8 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 
+import Icon from './Icon';
+
 interface DatePickerProps {
   value: string;
   onChange: (date: string) => void;
@@ -171,19 +173,7 @@ export default function DatePicker({
         `}
       >
         {value ? formatDisplay(value) : placeholder}
-        <svg
-          className="w-5 h-5 text-[#6D7882]"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-          />
-        </svg>
+        <Icon name="calendar" size={20} className="text-[#6D7882]" />
       </button>
 
       {isOpen && (
@@ -227,7 +217,7 @@ export default function DatePicker({
                 cursor-pointer
               `}
             >
-              ‹
+              <Icon name="arrow-left" size={20} />
             </button>
             <span className="text-base font-bold text-[#131416]">
               {viewYear}년 {viewMonth + 1}월
@@ -246,7 +236,7 @@ export default function DatePicker({
                 cursor-pointer
               `}
             >
-              ›
+              <Icon name="arrow-right" size={20} />
             </button>
           </div>
 

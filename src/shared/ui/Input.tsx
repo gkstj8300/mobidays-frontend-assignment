@@ -8,6 +8,8 @@
 
 import type { InputHTMLAttributes } from 'react';
 
+import Icon from './Icon';
+
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   inputType?: 'default' | 'search';
   status?: 'default' | 'error';
@@ -29,27 +31,17 @@ export default function Input({
     <div className="flex flex-col gap-1">
       <div className="relative">
         {inputType === 'search' && (
-          <svg
+          <div
             className={`
               absolute
               left-3
               top-1/2
               -translate-y-1/2
-              w-5
-              h-5
               text-[#6D7882]
             `}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+            <Icon name="search" size={20} />
+          </div>
         )}
         <input
           className={`
@@ -75,14 +67,10 @@ export default function Input({
         />
       </div>
       {status === 'error' && errorMessage && (
-        <span
-          className={`
-            text-xs
-            text-[#FF6161]
-          `}
-        >
+        <div className="flex items-center gap-1 text-xs text-[#FF6161]">
+          <Icon name="close" size={16} className="text-[#FF6161]" />
           {errorMessage}
-        </span>
+        </div>
       )}
     </div>
   );

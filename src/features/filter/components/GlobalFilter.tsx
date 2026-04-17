@@ -5,6 +5,7 @@
 'use client';
 
 import Button from '@/shared/ui/Button';
+import Icon from '@/shared/ui/Icon';
 
 import { useFilterStore } from '../store/useFilterStore';
 import DateRangePicker from './DateRangePicker';
@@ -62,7 +63,8 @@ export default function GlobalFilter() {
         size="small"
         onClick={reset}
       >
-        ↻ 초기화
+        <Icon name="refresh" size={16} />
+        초기화
       </Button>
     </div>
   );

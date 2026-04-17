@@ -1,8 +1,10 @@
 /**
- * 페이지네이션 — 1페이지당 10건
+ * 페이지네이션 — 1페이지당 10건, Figma 아이콘 사용
  */
 
 'use client';
+
+import Icon from '@/shared/ui/Icon';
 
 interface PaginationProps {
   currentPage: number;
@@ -49,7 +51,6 @@ export default function Pagination({
             items-center
             justify-center
             rounded
-            text-sm
             text-[#464C53]
             hover:bg-[#F4F5F6]
             disabled:text-[#AEB9C2]
@@ -59,7 +60,7 @@ export default function Pagination({
             disabled:cursor-not-allowed
           `}
         >
-          ‹
+          <Icon name="arrow-left" size={16} />
         </button>
 
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -99,7 +100,6 @@ export default function Pagination({
             items-center
             justify-center
             rounded
-            text-sm
             text-[#464C53]
             hover:bg-[#F4F5F6]
             disabled:text-[#AEB9C2]
@@ -109,7 +109,7 @@ export default function Pagination({
             disabled:cursor-not-allowed
           `}
         >
-          ›
+          <Icon name="arrow-right" size={16} />
         </button>
       </div>
     </div>

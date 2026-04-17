@@ -10,7 +10,9 @@ import type { CampaignStatus } from '@/types/entities';
 import type { SortConfig } from '@/types/common';
 
 import Badge from '@/shared/ui/Badge';
+import Button from '@/shared/ui/Button';
 import Checkbox from '@/shared/ui/Checkbox';
+import Icon from '@/shared/ui/Icon';
 import { useUpdateCampaignStatus } from '@/entities/campaign/hooks/useCampaignMutation';
 
 import { useCampaignTable } from '../hooks/useCampaignTable';
@@ -118,11 +120,17 @@ export default function CampaignTable({ onOpenModal }: CampaignTableProps) {
     [selectedIds, updateStatus],
   );
 
-  const getSortIndicator = (key: string): string => {
+  const renderSortIcon = (key: string) => {
     if (sortConfig?.key !== key) {
-      return '';
+      return null;
     }
-    return sortConfig.direction === 'asc' ? ' ↑' : ' ↓';
+    return (
+      <Icon
+        name={sortConfig.direction === 'asc' ? 'sort-asc' : 'sort-desc'}
+        size={16}
+        className="inline-block ml-0.5"
+      />
+    );
   };
 
   const isSortable = (key: string): boolean => {
@@ -172,28 +180,10 @@ export default function CampaignTable({ onOpenModal }: CampaignTableProps) {
         `}
       >
         <h2 className="text-lg font-bold text-[#131416]">캠페인 목록</h2>
-        <button
-          type="button"
-          onClick={onOpenModal}
-          className={`
-            inline-flex
-            items-center
-            gap-1
-            px-4
-            py-2
-            text-sm
-            font-medium
-            text-[#3C79D7]
-            border
-            border-[#3C79D7]
-            rounded-lg
-            hover:bg-[#ECF3FD]
-            transition-colors
-            cursor-pointer
-          `}
-        >
-          + 캠페인 등록
-        </button>
+        <Button variant="tertiary" onClick={onOpenModal}>
+          <Icon name="plus" size={16} />
+          캠페인 등록
+        </Button>
       </div>
 
       <div
@@ -240,12 +230,15 @@ export default function CampaignTable({ onOpenModal }: CampaignTableProps) {
                     font-semibold
                     text-[#6D7882]
                     whitespace-nowrap
-                    ${isSortable(col) ? 'cursor-pointer hover:text-[#131416]' : ''}
+                    ${isSortable(col) ? 'cursor-pointer hover:text-[#131416] select-none' : ''}
                     ${col === 'totalCost' || col === 'ctr' || col === 'cpc' || col === 'roas' ? 'text-right' : ''}
                   `}
                   onClick={isSortable(col) ? () => handleSort(col) : undefined}
                 >
-                  {COLUMN_LABELS[col]}{getSortIndicator(col)}
+                  <span className="inline-flex items-center">
+                    {COLUMN_LABELS[col]}
+                    {renderSortIcon(col)}
+                  </span>
                 </th>
               ))}
             </tr>
