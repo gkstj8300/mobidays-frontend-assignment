@@ -1,10 +1,12 @@
 /**
- * 집행 기간 필터 — Figma `input` 컴포넌트 스타일 적용
+ * 집행 기간 필터 — DatePicker 공통 컴포넌트 사용
  */
 
 'use client';
 
 import type { DateRange } from '@/types/common';
+
+import DatePicker from '@/shared/ui/DatePicker';
 
 interface DateRangePickerProps {
   startDate: string;
@@ -35,48 +37,16 @@ export default function DateRangePicker({
       >
         집행기간
       </span>
-      <input
-        type="date"
+      <DatePicker
         value={startDate}
-        onChange={(e) => onChange({ start: e.target.value, end: endDate })}
-        className={`
-          h-9
-          px-3
-          py-1.5
-          bg-[rgba(255,255,255,0.8)]
-          border
-          border-[#CED5DB]
-          rounded-lg
-          text-sm
-          font-medium
-          text-[#131416]
-          outline-none
-          transition-colors
-          focus:border-[#6096E6]
-          cursor-pointer
-        `}
+        onChange={(date) => onChange({ start: date, end: endDate })}
+        placeholder="시작일"
       />
       <span className="text-sm text-[#6D7882]">~</span>
-      <input
-        type="date"
+      <DatePicker
         value={endDate}
-        onChange={(e) => onChange({ start: startDate, end: e.target.value })}
-        className={`
-          h-9
-          px-3
-          py-1.5
-          bg-[rgba(255,255,255,0.8)]
-          border
-          border-[#CED5DB]
-          rounded-lg
-          text-sm
-          font-medium
-          text-[#131416]
-          outline-none
-          transition-colors
-          focus:border-[#6096E6]
-          cursor-pointer
-        `}
+        onChange={(date) => onChange({ start: startDate, end: date })}
+        placeholder="종료일"
       />
     </div>
   );
