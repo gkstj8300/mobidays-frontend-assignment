@@ -53,6 +53,7 @@ export default function DateRangePicker({
           outline-none
           transition-colors
           focus:border-[#6096E6]
+          cursor-pointer
         `}
       />
       <span className="text-sm text-[#6D7882]">~</span>
@@ -74,6 +75,7 @@ export default function DateRangePicker({
           outline-none
           transition-colors
           focus:border-[#6096E6]
+          cursor-pointer
         `}
       />
     </div>

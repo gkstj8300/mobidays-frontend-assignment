@@ -55,6 +55,8 @@ export default function Pagination({
             disabled:text-[#AEB9C2]
             disabled:hover:bg-transparent
             transition-colors
+            cursor-pointer
+            disabled:cursor-not-allowed
           `}
         >
           ‹
@@ -74,6 +76,7 @@ export default function Pagination({
               rounded
               text-sm
               transition-colors
+              cursor-pointer
               ${
                 page === currentPage
                   ? 'bg-[#6096E6] text-white'
@@ -102,6 +105,8 @@ export default function Pagination({
             disabled:text-[#AEB9C2]
             disabled:hover:bg-transparent
             transition-colors
+            cursor-pointer
+            disabled:cursor-not-allowed
           `}
         >
           ›

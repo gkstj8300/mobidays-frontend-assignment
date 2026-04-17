@@ -189,6 +189,7 @@ export default function CampaignTable({ onOpenModal }: CampaignTableProps) {
             rounded-lg
             hover:bg-[#ECF3FD]
             transition-colors
+            cursor-pointer
           `}
         >
           + 캠페인 등록
