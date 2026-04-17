@@ -58,6 +58,7 @@
 - `chore: ESLint + Prettier 설정`
 - `feat: json-server 설정 및 db.json 배치`
 - `feat: 타입 정의 및 데이터 정규화 함수 구현`
+- `test: 데이터 정규화 및 파생 지표 단위 테스트`
 - `feat: API 클라이언트 및 TanStack Query 쿼리 훅 구현`
 
 **완료 기준:**
