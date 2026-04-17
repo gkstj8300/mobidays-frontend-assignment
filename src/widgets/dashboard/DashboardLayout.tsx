@@ -5,6 +5,7 @@
 'use client';
 
 import GlobalFilter from '@/features/filter/components/GlobalFilter';
+import DailyTrendChart from '@/features/daily-chart/components/DailyTrendChart';
 
 export default function DashboardLayout() {
   return (
@@ -24,7 +25,7 @@ export default function DashboardLayout() {
         className={`
           text-2xl
           font-bold
-          text-[var(--color-text-primary)]
+          text-[#131416]
         `}
       >
         마케팅 캠페인 성과 대시보드
@@ -32,7 +33,9 @@ export default function DashboardLayout() {
 
       <GlobalFilter />
 
-      {/* Phase 3~7에서 차트, 테이블 등 위젯 추가 예정 */}
+      <DailyTrendChart />
+
+      {/* Phase 4~7에서 테이블, 추가 차트 등 위젯 추가 예정 */}
     </div>
   );
 }
