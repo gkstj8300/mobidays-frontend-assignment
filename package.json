@@ -12,6 +12,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.99.0",
     "json-server": "^0.17.4",
     "next": "16.2.4",
     "react": "19.2.4",
