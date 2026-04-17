@@ -6,6 +6,8 @@
 
 import type { CampaignStatus } from '@/types/entities';
 
+import ToggleChip from '@/shared/ui/ToggleChip';
+
 import { STATUS_OPTIONS } from '../constants';
 
 interface StatusFilterProps {
@@ -28,37 +30,21 @@ export default function StatusFilter({ selected, onToggle }: StatusFilterProps) 
         className={`
           text-sm
           font-semibold
-          text-[var(--color-text-primary)]
+          text-[#131416]
           whitespace-nowrap
         `}
       >
         상태
       </span>
-      {STATUS_OPTIONS.map(({ key, label }) => {
-        const isActive = isAllSelected || selected.includes(key);
-        return (
-          <button
-            key={key}
-            type="button"
-            onClick={() => onToggle(key)}
-            className={`
-              px-3
-              py-1.5
-              text-sm
-              rounded-full
-              border
-              transition-colors
-              ${
-                isActive
-                  ? 'bg-[var(--color-primary-light)] border-[var(--color-primary-accent)] text-[var(--color-primary)]'
-                  : 'bg-white border-[var(--color-border)] text-[var(--color-text-disabled)]'
-              }
-            `}
-          >
-            {label}
-          </button>
-        );
-      })}
+      {STATUS_OPTIONS.map(({ key, label }) => (
+        <ToggleChip
+          key={key}
+          label={label}
+          isActive={isAllSelected || selected.includes(key)}
+          onClick={() => onToggle(key)}
+          size="lg"
+        />
+      ))}
     </div>
   );
 }

@@ -4,6 +4,8 @@
 
 'use client';
 
+import Button from '@/shared/ui/Button';
+
 import { useFilterStore } from '../store/useFilterStore';
 import DateRangePicker from './DateRangePicker';
 import StatusFilter from './StatusFilter';
@@ -29,7 +31,7 @@ export default function GlobalFilter() {
         py-4
         bg-white
         border
-        border-[var(--color-border)]
+        border-[#CED5DB]
         rounded-xl
       `}
     >
@@ -39,39 +41,29 @@ export default function GlobalFilter() {
         onChange={setDateRange}
       />
 
-      <div className="w-px h-6 bg-[var(--color-border)]" />
+      <div className="w-px h-6 bg-[#CED5DB]" />
 
       <StatusFilter
         selected={statuses}
         onToggle={toggleStatus}
       />
 
-      <div className="w-px h-6 bg-[var(--color-border)]" />
+      <div className="w-px h-6 bg-[#CED5DB]" />
 
       <PlatformFilter
         selected={platforms}
         onToggle={togglePlatform}
       />
 
-      <div className="w-px h-6 bg-[var(--color-border)]" />
+      <div className="w-px h-6 bg-[#CED5DB]" />
 
-      <button
-        type="button"
+      <Button
+        variant="tertiary"
+        size="small"
         onClick={reset}
-        className={`
-          flex
-          items-center
-          gap-1
-          px-3
-          py-1.5
-          text-sm
-          text-[var(--color-text-secondary)]
-          hover:text-[var(--color-text-primary)]
-          transition-colors
-        `}
       >
         ↻ 초기화
-      </button>
+      </Button>
     </div>
   );
 }

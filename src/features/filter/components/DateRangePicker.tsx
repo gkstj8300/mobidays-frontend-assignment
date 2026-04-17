@@ -1,5 +1,5 @@
 /**
- * 집행 기간 필터 — 날짜 범위 선택
+ * 집행 기간 필터 — Figma `input` 컴포넌트 스타일 적용
  */
 
 'use client';
@@ -29,7 +29,7 @@ export default function DateRangePicker({
         className={`
           text-sm
           font-semibold
-          text-[var(--color-text-primary)]
+          text-[#131416]
           whitespace-nowrap
         `}
       >
@@ -40,30 +40,40 @@ export default function DateRangePicker({
         value={startDate}
         onChange={(e) => onChange({ start: e.target.value, end: endDate })}
         className={`
+          h-9
           px-3
           py-1.5
-          text-sm
+          bg-[rgba(255,255,255,0.8)]
           border
-          border-[var(--color-border)]
+          border-[#CED5DB]
           rounded-lg
+          text-sm
+          font-medium
+          text-[#131416]
           outline-none
-          focus:border-[var(--color-stroke-focused)]
+          transition-colors
+          focus:border-[#6096E6]
         `}
       />
-      <span className="text-sm text-[var(--color-text-disabled)]">~</span>
+      <span className="text-sm text-[#6D7882]">~</span>
       <input
         type="date"
         value={endDate}
         onChange={(e) => onChange({ start: startDate, end: e.target.value })}
         className={`
+          h-9
           px-3
           py-1.5
-          text-sm
+          bg-[rgba(255,255,255,0.8)]
           border
-          border-[var(--color-border)]
+          border-[#CED5DB]
           rounded-lg
+          text-sm
+          font-medium
+          text-[#131416]
           outline-none
-          focus:border-[var(--color-stroke-focused)]
+          transition-colors
+          focus:border-[#6096E6]
         `}
       />
     </div>
