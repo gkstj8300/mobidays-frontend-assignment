@@ -6,8 +6,10 @@
 
 import GlobalFilter from '@/features/filter/components/GlobalFilter';
 import DailyTrendChart from '@/features/daily-chart/components/DailyTrendChart';
+import CampaignTable from '@/features/campaign-table/components/CampaignTable';
 
 export default function DashboardLayout() {
+
   return (
     <div
       className={`
@@ -35,7 +37,10 @@ export default function DashboardLayout() {
 
       <DailyTrendChart />
 
-      {/* Phase 4~7에서 테이블, 추가 차트 등 위젯 추가 예정 */}
+      <CampaignTable onOpenModal={() => {/* Phase 5에서 모달 연동 */}} />
+
+      {/* Phase 5에서 CampaignFormModal 추가 예정 */}
+      {/* Phase 6~7에서 플랫폼 차트, 랭킹 차트 추가 예정 */}
     </div>
   );
 }
