@@ -113,12 +113,14 @@ export default function CampaignFormModal({
                 onChange={(e) => updateField('budget', e.target.value)}
                 status={errors.budget ? 'error' : 'default'}
                 errorMessage={errors.budget}
+                className="pr-8"
               />
               <span
                 className={`
                   absolute
                   right-3
-                  top-2.5
+                  top-1/2
+                  -translate-y-1/2
                   text-sm
                   text-[#6D7882]
                   pointer-events-none
@@ -141,12 +143,14 @@ export default function CampaignFormModal({
                 onChange={(e) => updateField('cost', e.target.value)}
                 status={errors.cost ? 'error' : 'default'}
                 errorMessage={errors.cost}
+                className="pr-8"
               />
               <span
                 className={`
                   absolute
                   right-3
-                  top-2.5
+                  top-1/2
+                  -translate-y-1/2
                   text-sm
                   text-[#6D7882]
                   pointer-events-none
@@ -167,6 +171,7 @@ export default function CampaignFormModal({
               value={formData.startDate}
               onChange={(date) => updateField('startDate', date)}
               placeholder="시작일 선택"
+              calendarSize="sm"
             />
             {errors.startDate && (
               <p className="mt-1 text-xs text-[#FF6161]">{errors.startDate}</p>
@@ -181,6 +186,7 @@ export default function CampaignFormModal({
               value={formData.endDate}
               onChange={(date) => updateField('endDate', date)}
               placeholder="종료일 선택"
+              calendarSize="sm"
             />
             {errors.endDate && (
               <p className="mt-1 text-xs text-[#FF6161]">{errors.endDate}</p>

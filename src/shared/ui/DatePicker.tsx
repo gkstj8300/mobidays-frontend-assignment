@@ -1,19 +1,62 @@
 /**
  * DatePicker — Figma `date picker` + `date picker_modal` + `button_element` 기반
  * 트리거 input 클릭 → 달력 모달 → 날짜 선택
+ * 달력은 fixed 포지션으로 렌더링하여 부모 overflow에 영향받지 않음
  */
 
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 import Icon from './Icon';
+
+type CalendarSize = 'sm' | 'md' | 'lg';
 
 interface DatePickerProps {
   value: string;
   onChange: (date: string) => void;
   placeholder?: string;
+  calendarSize?: CalendarSize;
 }
+
+const calendarSizeStyles: Record<CalendarSize, {
+  width: string;
+  padding: string;
+  cellSize: string;
+  gap: string;
+  headerFont: string;
+  dayFont: string;
+  cellFont: string;
+}> = {
+  sm: {
+    width: 'w-56',
+    padding: 'p-3',
+    cellSize: 'w-5 h-5',
+    gap: 'gap-1',
+    headerFont: 'text-sm',
+    dayFont: 'text-xs',
+    cellFont: 'text-[10px]',
+  },
+  md: {
+    width: 'w-72',
+    padding: 'p-4',
+    cellSize: 'w-7 h-7',
+    gap: 'gap-2',
+    headerFont: 'text-base',
+    dayFont: 'text-sm',
+    cellFont: 'text-xs',
+  },
+  lg: {
+    width: 'w-96',
+    padding: 'p-5',
+    cellSize: 'w-10 h-10',
+    gap: 'gap-2',
+    headerFont: 'text-lg',
+    dayFont: 'text-sm',
+    cellFont: 'text-sm',
+  },
+};
 
 const DAYS_OF_WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -73,8 +116,11 @@ export default function DatePicker({
   value,
   onChange,
   placeholder = '날짜 선택',
+  calendarSize = 'md',
 }: DatePickerProps) {
+  const sizeStyle = calendarSizeStyles[calendarSize];
   const [isOpen, setIsOpen] = useState(false);
+  const [position, setPosition] = useState({ top: 0, left: 0 });
   const [viewYear, setViewYear] = useState(() => {
     if (value) {
       return parseInt(value.split('-')[0], 10);
@@ -88,18 +134,35 @@ export default function DatePicker({
     return new Date().getMonth();
   });
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
   const today = getToday();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        triggerRef.current && !triggerRef.current.contains(target) &&
+        calendarRef.current && !calendarRef.current.contains(target)
+      ) {
         setIsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleToggle = useCallback(() => {
+    if (!isOpen && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+
+      setPosition({
+        top: rect.bottom + 4,
+        left: rect.left,
+      });
+    }
+    setIsOpen((prev) => !prev);
+  }, [isOpen]);
 
   const handlePrevMonth = useCallback(() => {
     setViewMonth((prev) => {
@@ -149,16 +212,19 @@ export default function DatePicker({
   };
 
   return (
-    <div ref={containerRef} className="relative">
+    <>
       <button
+        ref={triggerRef}
         type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={handleToggle}
         className={`
+          w-full
           h-9
           px-3
           py-1.5
           flex
           items-center
+          justify-between
           gap-1
           bg-[rgba(255,255,255,0.8)]
           border
@@ -176,20 +242,19 @@ export default function DatePicker({
         <Icon name="calendar" size={20} className="text-[#6D7882]" />
       </button>
 
-      {isOpen && (
+      {isOpen && createPortal(
         <div
+          ref={calendarRef}
+          style={{ top: position.top, left: position.left }}
           className={`
-            absolute
-            top-full
-            left-0
-            mt-1
-            w-72
-            p-4
-            bg-[rgba(255,255,255,0.9)]
+            fixed
+            ${sizeStyle.width}
+            ${sizeStyle.padding}
+            bg-[rgba(255,255,255,0.95)]
             backdrop-blur-[20px]
             rounded-[10px]
             shadow-[0px_10px_20px_0px_rgba(22,45,71,0.2)]
-            z-50
+            z-[100]
           `}
         >
           <div
@@ -219,7 +284,7 @@ export default function DatePicker({
             >
               <Icon name="arrow-left" size={20} />
             </button>
-            <span className="text-base font-bold text-[#131416]">
+            <span className={`${sizeStyle.headerFont} font-bold text-[#131416]`}>
               {viewYear}년 {viewMonth + 1}월
             </span>
             <button
@@ -240,13 +305,13 @@ export default function DatePicker({
             </button>
           </div>
 
-          <div className="grid grid-cols-7 gap-2 mb-2">
+          <div className={`grid grid-cols-7 ${sizeStyle.gap} mb-2`}>
             {DAYS_OF_WEEK.map((day, i) => (
               <div
                 key={day}
                 className={`
                   text-center
-                  text-sm
+                  ${sizeStyle.dayFont}
                   font-semibold
                   ${i === 0 ? 'text-[#FF6161]' : 'text-[#131416]'}
                 `}
@@ -256,20 +321,19 @@ export default function DatePicker({
             ))}
           </div>
 
-          <div className="grid grid-cols-7 gap-2">
+          <div className={`grid grid-cols-7 ${sizeStyle.gap}`}>
             {days.map((day) => (
               <button
                 key={day.full}
                 type="button"
                 onClick={() => handleSelect(day.full)}
                 className={`
-                  w-7
-                  h-7
+                  ${sizeStyle.cellSize}
                   flex
                   items-center
                   justify-center
                   rounded-full
-                  text-xs
+                  ${sizeStyle.cellFont}
                   font-medium
                   transition-colors
                   cursor-pointer
@@ -280,8 +344,9 @@ export default function DatePicker({
               </button>
             ))}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
-    </div>
+    </>
   );
 }
