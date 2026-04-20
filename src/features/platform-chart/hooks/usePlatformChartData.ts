@@ -28,20 +28,19 @@ const PLATFORM_COLORS: Record<Platform, string> = {
   Naver: '#1C9E34',
 };
 
+// 플랫폼 필터는 의도적으로 적용하지 않는다.
+// 도넛 차트는 "플랫폼 분포 개요" 위젯이며, 플랫폼 필터 선택은 도넛에서 "강조/흐림"으로만
+// 표현된다(차트 클릭 시 양방향 연동). 플랫폼 필터로 슬라이스를 제거하면 위젯의 의도가 깨진다.
 const filterCampaigns = (
   campaigns: Campaign[],
   dateRange: { start: string; end: string },
   statuses: string[],
-  platforms: string[],
 ): Campaign[] => {
   return campaigns.filter((campaign) => {
     if (!isCampaignInDateRange(campaign.startDate, campaign.endDate, dateRange.start, dateRange.end)) {
       return false;
     }
     if (statuses.length > 0 && !statuses.includes(campaign.status)) {
-      return false;
-    }
-    if (platforms.length > 0 && !platforms.includes(campaign.platform)) {
       return false;
     }
     return true;
@@ -54,14 +53,13 @@ export const usePlatformChartData = (metric: PlatformMetric) => {
 
   const dateRange = useFilterStore((state) => state.dateRange);
   const statuses = useFilterStore((state) => state.statuses);
-  const platforms = useFilterStore((state) => state.platforms);
 
   const chartData = useMemo(() => {
     if (!campaigns || !dailyStats) {
       return { data: [], colors: [] as string[] };
     }
 
-    const filtered = filterCampaigns(campaigns, dateRange, statuses, platforms);
+    const filtered = filterCampaigns(campaigns, dateRange, statuses);
     const filteredIds = new Set(filtered.map((c) => c.id));
 
     const campaignPlatformMap = new Map<string, Platform>();
@@ -103,7 +101,7 @@ export const usePlatformChartData = (metric: PlatformMetric) => {
     const colors = data.map((d) => PLATFORM_COLORS[d.platform]);
 
     return { data, colors };
-  }, [campaigns, dailyStats, dateRange, statuses, platforms, metric]);
+  }, [campaigns, dailyStats, dateRange, statuses, metric]);
 
   return {
     ...chartData,
