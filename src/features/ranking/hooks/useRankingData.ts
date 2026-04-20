@@ -89,11 +89,25 @@ export const useRankingData = (metric: RankingMetric) => {
         name: campaign.name,
         platform: campaign.platform,
         value,
+        totalImpressions,
+        totalClicks,
+        totalCost,
       };
     });
 
+    // 메트릭 분모가 0이면 계산값이 정의 불가(Division by Zero 방어의 0)이므로 랭킹에서 제외
+    const rankable = campaignMetrics.filter((item) => {
+      if (metric === 'cpc') {
+        return item.totalClicks > 0;
+      }
+      if (metric === 'ctr') {
+        return item.totalImpressions > 0;
+      }
+      return item.totalCost > 0;
+    });
+
     // ROAS/CTR: 높을수록 상위, CPC: 낮을수록 상위
-    const sorted = [...campaignMetrics].sort((a, b) =>
+    const sorted = [...rankable].sort((a, b) =>
       metric === 'cpc' ? a.value - b.value : b.value - a.value,
     );
 
