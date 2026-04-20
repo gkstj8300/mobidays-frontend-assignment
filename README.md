@@ -2,6 +2,12 @@
 
 (주)모비데이즈 프론트엔드 과제 — 마케팅 캠페인 성과 대시보드
 
+## 배포 URL
+
+https://mobidays-frontend-assignment.vercel.app/
+
+> 프로덕션 환경에서는 MSW(Mock Service Worker)가 브라우저 내부에서 `db.json` 기반으로 API를 흉내냅니다. 새로고침 시 데이터는 초기 상태로 복귀합니다 (MAIN.md §2.2 "세션 내 유지" 허용).
+
 ## 실행 방법
 
 ### 사전 요구사항
