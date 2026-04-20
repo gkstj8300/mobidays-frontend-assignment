@@ -29,7 +29,7 @@ export const useCreateCampaign = () => {
     mutationFn: async ({ campaign, initialCost }: CreateCampaignInput) => {
       const created = await createCampaign(campaign);
 
-      if (initialCost !== undefined && initialCost > 0) {
+      if (initialCost !== undefined && initialCost > 0 && created.startDate) {
         await createDailyStat({
           id: `NEW-STAT-${Date.now()}`,
           campaignId: created.id,
