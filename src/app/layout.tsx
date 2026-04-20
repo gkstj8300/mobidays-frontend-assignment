@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import MockProvider from '@/mocks/MockProvider';
 import QueryProvider from '@/shared/providers/QueryProvider';
 
 import './globals.css';
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="ko" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
-        <QueryProvider>{children}</QueryProvider>
+        <MockProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </MockProvider>
       </body>
     </html>
   );

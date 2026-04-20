@@ -65,12 +65,16 @@ npm run test:watch  # 테스트 watch 모드
 
 ### 데이터 서버
 
-| 기술 | 선택 근거 |
-|------|-----------|
-| json-server | 과제 명세 권장. `db.json` 기반 REST API 즉시 구축 |
-| concurrently | `npm run dev` 단일 명령어로 Next.js + json-server 동시 실행 |
+| 환경 | 기술 | 역할 |
+|------|------|------|
+| 로컬 개발 | json-server + concurrently | `db.json` 기반 REST API. `npm run dev`로 Next.js와 동시 실행 |
+| 프로덕션 (Vercel 등) | MSW (Mock Service Worker) | 브라우저 서비스 워커가 `fetch`를 가로채 db.json으로 응답 |
 
-**db.json 원본 보호**: json-server POST/PATCH 시 파일이 변경되므로, 실행 시 `db.serve.json` 복사본을 생성하여 사용. 원본 `db.json`은 항상 초기 상태 유지.
+**선택 근거**: MAIN.md §2.2가 "json-server, msw 등"을 허용. 로컬 개발은 json-server의 실제 HTTP·파일 영속성을 활용하고, 외부 서버가 없는 Vercel 배포 환경에서는 MSW가 같은 API 시그니처로 브라우저 내부에서 응답하여 동일한 프론트엔드 코드가 양쪽 모두에서 동작.
+
+**db.json 원본 보호**: json-server POST/PATCH 시 파일이 변경되므로, 실행 시 `db.serve.json` 복사본을 생성하여 사용. 원본 `db.json`은 항상 초기 상태 유지. MSW도 메모리 내 복사본만 조작.
+
+**환경별 분기**: `NODE_ENV === 'production'`이면 MSW 활성화. `process.env.NEXT_PUBLIC_API_URL`을 명시하면 해당 URL을 우선 사용 (외부 json-server에 연결할 때).
 
 ### 테스트
 
