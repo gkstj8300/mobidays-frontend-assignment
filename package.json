@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:next\" \"npm run dev:api\"",
     "dev:next": "next dev",
-    "dev:api": "cp db.json db.serve.json && json-server --watch db.serve.json --port 4000",
+    "dev:api": "node -e \"require('fs').copyFileSync('db.json','db.serve.json')\" && json-server --watch db.serve.json --port 4000",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
