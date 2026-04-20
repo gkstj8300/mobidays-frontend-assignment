@@ -169,3 +169,22 @@ Figma 디자인 시스템을 분석하여 8개 공통 UI 컴포넌트(`shared/ui
 | Division by Zero (impressions=0, clicks=0) | 6건 | `safeDivide` 방어 |
 
 28개 단위 테스트로 전처리 완전성을 검증합니다.
+
+---
+
+## 의도된 UI 동작 (예외 데이터 처리 결과)
+
+아래 항목은 `db.json`의 예외 데이터를 안전 처리한 결과로 발생하는 **정상 동작**입니다.
+
+| 화면 현상 | 원인 | 처리 방식 |
+|-----------|------|-----------|
+| 캠페인명에 `(이름 없음)` 표시 | `META-002.name = null` | 정규화 시 `raw.name ?? '(이름 없음)'` |
+| 집행기간 종료일이 `-` 또는 비어있음 | `NAV-010.endDate = null` | `endDate`는 `null` 유지 → UI에서 분기 |
+| 플랫폼이 `Facebook → Meta`, `네이버 → Naver`로 표시됨 | 원본 데이터의 플랫폼명 비표준 | `PLATFORM_NORMALIZE_MAP` 적용 |
+| 상태가 `running → 진행중`, `stopped → 종료`로 표시됨 | 원본 데이터의 상태값 비표준 | `STATUS_NORMALIZE_MAP` 적용 |
+| 날짜 `2026/04/12` → `2026.04.12` 표시 | `GGL-002.startDate`가 슬래시 포맷 | `normalizeDate`로 하이픈 변환 |
+| 테이블에서 일부 캠페인의 CTR/CPC/ROAS가 `0.00` | 필터 기간 내 clicks·impressions·cost가 0 | `safeDivide`로 Division by Zero 방어 |
+| 신규 등록 캠페인의 지표가 전부 `0` | `daily_stats` 미존재 | 과제 명세 §3.4 "지표는 0 또는 -으로 표시되어도 무방" |
+| 캠페인 랭킹 Top3에서 지표 0인 캠페인이 제외됨 | Division by Zero 방어의 `0`을 "최저값"으로 오해하는 것 방지 | 랭킹 대상을 분모 > 0인 캠페인으로 제한 |
+| 플랫폼 Donut 차트에 특정 플랫폼 미노출 | 해당 플랫폼의 메트릭 합계가 0 | `value > 0` 필터 적용 |
+| 플랫폼 필터 선택 시 Donut에서 비선택 플랫폼이 흐림 처리로 유지됨 | Donut은 "플랫폼 분포 개요" 위젯이며, 필터는 슬라이스 제거가 아닌 강조/흐림으로 표현 | 훅 집계에서 플랫폼 필터 미적용, 컴포넌트에서 `opacity: 0.3` 적용 (양방향 연동 유지) |
