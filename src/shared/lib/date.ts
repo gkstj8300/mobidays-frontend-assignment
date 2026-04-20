@@ -2,8 +2,11 @@
  * 날짜 유틸리티 함수
  */
 
-/** "2026/04/12" → "2026-04-12" 정규화 */
-export const normalizeDate = (dateStr: string): string => {
+/** "2026/04/12" → "2026-04-12" 정규화, null/빈값 안전 처리 */
+export const normalizeDate = (dateStr: string | null | undefined): string => {
+  if (!dateStr) {
+    return '';
+  }
   return dateStr.replace(/\//g, '-');
 };
 

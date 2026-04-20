@@ -28,7 +28,7 @@ export const normalizeCampaign = (raw: ApiCampaign): Campaign => {
     platform: platform ?? (raw.platform as Campaign['platform']),
     status: status ?? (raw.status as Campaign['status']),
     budget: raw.budget ?? 0,
-    startDate: normalizeDate(raw.startDate),
+    startDate: normalizeDate(raw.startDate) || '1970-01-01',
     endDate: raw.endDate ? normalizeDate(raw.endDate) : null,
   };
 };

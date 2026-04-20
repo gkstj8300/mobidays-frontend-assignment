@@ -9,7 +9,7 @@ export interface ApiCampaign {
   platform: string;
   status: string;
   budget: number | null;
-  startDate: string;
+  startDate: string | null;
   endDate: string | null;
 }
 
