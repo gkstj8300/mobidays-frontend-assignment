@@ -15,6 +15,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
+import StateMessage from '@/shared/ui/StateMessage';
 import { useFilterStore } from '@/features/filter/store/useFilterStore';
 
 import { useDailyChartData } from '../hooks/useDailyChartData';
@@ -40,7 +41,7 @@ export default function DailyTrendChart() {
     'clicks',
   ]);
 
-  const { data, isLoading } = useDailyChartData();
+  const { data, isLoading, isError } = useDailyChartData();
   const dateRange = useFilterStore((state) => state.dateRange);
 
   const handleToggle = useCallback((key: string) => {
@@ -54,24 +55,10 @@ export default function DailyTrendChart() {
   const showImpressions = activeMetrics.includes('impressions');
   const showClicks = activeMetrics.includes('clicks');
 
-  if (isLoading) {
+  if (isLoading || isError) {
     return (
-      <div
-        className={`
-          bg-white
-          rounded-xl
-          border
-          border-[#CED5DB]
-          p-6
-          h-[400px]
-          flex
-          items-center
-          justify-center
-          text-sm
-          text-[#6D7882]
-        `}
-      >
-        데이터를 불러오는 중...
+      <div className="bg-white rounded-xl border border-[#CED5DB] p-6">
+        <StateMessage type={isError ? 'error' : 'loading'} height="h-[300px]" />
       </div>
     );
   }
@@ -140,18 +127,7 @@ export default function DailyTrendChart() {
       </p>
 
       {data.length === 0 ? (
-        <div
-          className={`
-            h-[300px]
-            flex
-            items-center
-            justify-center
-            text-sm
-            text-[#AEB9C2]
-          `}
-        >
-          해당 기간에 데이터가 없습니다
-        </div>
+        <StateMessage type="empty" height="h-[300px]" />
       ) : (
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data}>

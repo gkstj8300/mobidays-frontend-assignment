@@ -49,8 +49,8 @@ const filterCampaigns = (
 };
 
 export const useDailyChartData = () => {
-  const { data: campaigns, isLoading: isCampaignsLoading } = useCampaigns();
-  const { data: dailyStats, isLoading: isStatsLoading } = useDailyStats();
+  const { data: campaigns, isLoading: isCampaignsLoading, isError: isCampaignsError } = useCampaigns();
+  const { data: dailyStats, isLoading: isStatsLoading, isError: isStatsError } = useDailyStats();
 
   const dateRange = useFilterStore((state) => state.dateRange);
   const statuses = useFilterStore((state) => state.statuses);
@@ -94,5 +94,6 @@ export const useDailyChartData = () => {
   return {
     data: chartData,
     isLoading: isCampaignsLoading || isStatsLoading,
+    isError: isCampaignsError || isStatsError,
   };
 };

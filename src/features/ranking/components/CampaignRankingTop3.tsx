@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 import Badge from '@/shared/ui/Badge';
 import ToggleChip from '@/shared/ui/ToggleChip';
+import StateMessage from '@/shared/ui/StateMessage';
 
 import { useRankingData } from '../hooks/useRankingData';
 import type { RankingMetric } from '../hooks/useRankingData';
@@ -31,22 +32,8 @@ export default function CampaignRankingTop3() {
 
   if (isLoading) {
     return (
-      <div
-        className={`
-          bg-white
-          rounded-xl
-          border
-          border-[#CED5DB]
-          p-6
-          h-[280px]
-          flex
-          items-center
-          justify-center
-          text-sm
-          text-[#6D7882]
-        `}
-      >
-        데이터를 불러오는 중...
+      <div className="bg-white rounded-xl border border-[#CED5DB] p-6">
+        <StateMessage type="loading" height="h-[240px]" />
       </div>
     );
   }
@@ -84,18 +71,7 @@ export default function CampaignRankingTop3() {
       </div>
 
       {data.length === 0 ? (
-        <div
-          className={`
-            h-[200px]
-            flex
-            items-center
-            justify-center
-            text-sm
-            text-[#AEB9C2]
-          `}
-        >
-          해당 기간에 데이터가 없습니다
-        </div>
+        <StateMessage type="empty" height="h-[200px]" />
       ) : (
         <div className="flex flex-col gap-3">
           {data.map((item, index) => {

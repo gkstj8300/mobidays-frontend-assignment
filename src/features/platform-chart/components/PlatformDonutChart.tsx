@@ -16,6 +16,7 @@ import {
 import type { Platform } from '@/types/entities';
 
 import ToggleChip from '@/shared/ui/ToggleChip';
+import StateMessage from '@/shared/ui/StateMessage';
 import { useFilterStore } from '@/features/filter/store/useFilterStore';
 
 import {
@@ -53,22 +54,8 @@ export default function PlatformDonutChart() {
 
   if (isLoading) {
     return (
-      <div
-        className={`
-          bg-white
-          rounded-xl
-          border
-          border-[#CED5DB]
-          p-6
-          h-[320px]
-          flex
-          items-center
-          justify-center
-          text-sm
-          text-[#6D7882]
-        `}
-      >
-        데이터를 불러오는 중...
+      <div className="bg-white rounded-xl border border-[#CED5DB] p-6">
+        <StateMessage type="loading" height="h-[280px]" />
       </div>
     );
   }
@@ -106,18 +93,7 @@ export default function PlatformDonutChart() {
       </div>
 
       {data.length === 0 ? (
-        <div
-          className={`
-            h-[240px]
-            flex
-            items-center
-            justify-center
-            text-sm
-            text-[#AEB9C2]
-          `}
-        >
-          해당 기간에 데이터가 없습니다
-        </div>
+        <StateMessage type="empty" height="h-[240px]" />
       ) : (
         <div className="flex items-center gap-6">
           <div className="w-[200px] h-[200px]">

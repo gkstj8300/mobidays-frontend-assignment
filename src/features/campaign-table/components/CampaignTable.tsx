@@ -13,6 +13,7 @@ import Badge from '@/shared/ui/Badge';
 import Button from '@/shared/ui/Button';
 import Checkbox from '@/shared/ui/Checkbox';
 import Icon from '@/shared/ui/Icon';
+import StateMessage from '@/shared/ui/StateMessage';
 import { useUpdateCampaignStatus } from '@/entities/campaign/hooks/useCampaignMutation';
 
 import { useCampaignTable } from '../hooks/useCampaignTable';
@@ -141,22 +142,8 @@ export default function CampaignTable({ onOpenModal }: CampaignTableProps) {
 
   if (isLoading) {
     return (
-      <div
-        className={`
-          bg-white
-          rounded-xl
-          border
-          border-[#CED5DB]
-          p-6
-          h-[400px]
-          flex
-          items-center
-          justify-center
-          text-sm
-          text-[#6D7882]
-        `}
-      >
-        데이터를 불러오는 중...
+      <div className="bg-white rounded-xl border border-[#CED5DB] p-6">
+        <StateMessage type="loading" height="h-[400px]" />
       </div>
     );
   }
