@@ -3,7 +3,7 @@
 ## 프로젝트 개요
 
 (주)모비데이즈 프론트엔드 과제 — 마케팅 캠페인 성과 대시보드 구현.
-과제 명세: `.claude/spec/MAIN.md`, 데이터: `.claude/data/data.json`, 참고 이미지: `.claude/images/`
+과제 명세: `.claude/spec/MAIN.md`, 데이터: `db.json`, 참고 이미지: `.claude/images/`
 
 ## 문서 작성 및 수정 규칙
 

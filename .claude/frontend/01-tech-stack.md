@@ -15,6 +15,7 @@
 |------|------|--------|-----------|
 | v1.0.0 | 2026-04-16 | Claude | 신규 작성 |
 | v1.1.0 | 2026-04-16 | Claude | Figma 디자인 시스템 반영 — 폰트(Pretendard, Paperlogy) 추가 |
+| v1.2.0 | 2026-04-17 | Claude | 데이터 서버 전략 의사결정 문서화 — concurrently + db.json 복사 전략 |
 
 ---
 
@@ -78,7 +79,25 @@
 
 | 기술 | 선정 근거 | 트레이드오프 |
 |------|-----------|-------------|
-| json-server | 과제 명세에서 권장. `db.json` 기반 REST API 즉시 구축. GET/POST/PATCH 지원 | 실제 서버 로직(유효성 검사 등)은 클라이언트에서 처리 필요 |
+| json-server | 과제 명세에서 명시적 권장. `db.json` 기반 REST API 즉시 구축. GET/POST/PATCH 지원 | POST/PATCH 시 db.json 원본 파일이 변경됨 → 복사본 전략으로 해결 |
+| concurrently | Next.js + json-server를 `npm run dev` 단일 명령어로 동시 실행 | devDependency 1개 추가 |
+
+### 의사결정 기록: json-server vs Next.js API Route
+
+**결론**: json-server + concurrently 채택
+
+| 비교 항목 | json-server (채택) | Next.js API Route (미채택) |
+|-----------|-------------------|--------------------------|
+| 명세 부합 | 명세에서 json-server 명시 | "msw 등"에 해당 — 허용은 되나 명시적이지 않음 |
+| 평가자 관점 | 명세를 정확히 따름 | "명세를 안 따랐다"로 해석될 수 있음 |
+| 프론트/백 분리 | 실무와 동일한 분리 구조 | 풀스택 구조 |
+| 실행 편의성 | concurrently로 단일 명령어 | 단일 명령어 |
+
+**db.json 원본 보호 전략**:
+- json-server의 POST/PATCH는 db.json 파일을 직접 수정한다.
+- 명세 요건 "제공된 db.json 파일은 수정 없이 원본 그대로 활용"과 충돌 가능.
+- 해결: 실행 시 `db.json` → `db.serve.json` 복사본을 생성하고, json-server는 복사본을 사용한다.
+- 원본 `db.json`은 항상 초기 상태를 유지한다.
 
 ### API 엔드포인트
 
@@ -88,6 +107,16 @@
 | GET | `/daily_stats` | 일별 성과 데이터 조회 |
 | POST | `/campaigns` | 캠페인 등록 (세션 내 유지) |
 | PATCH | `/campaigns/:id` | 캠페인 상태 변경 (일괄 변경) |
+
+### 실행 스크립트
+
+```json
+{
+  "dev": "concurrently \"npm run dev:next\" \"npm run dev:api\"",
+  "dev:next": "next dev",
+  "dev:api": "cp db.json db.serve.json && json-server --watch db.serve.json --port 4000"
+}
+```
 
 ---
 

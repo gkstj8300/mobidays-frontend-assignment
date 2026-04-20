@@ -63,7 +63,7 @@
 ## 2. 데이터 명세 및 활용 가이드
 db.json 를 사용해주세요.
 
-.claude\data\data.json
+프로젝트 루트의 `db.json`을 사용한다.
 
 ### 2.1 데이터 스키마 (Data Schema)
 ```js

@@ -7,7 +7,7 @@
 | 문서명 | 데이터 분석 & 전처리 설계서 |
 | 버전 | v1.0.0 |
 | 작성일 | 2026-04-16 |
-| 기반 문서 | `.claude/spec/MAIN.md`, `.claude/data/data.json` |
+| 기반 문서 | `.claude/spec/MAIN.md`, `db.json` |
 
 ### 변경 이력
 
