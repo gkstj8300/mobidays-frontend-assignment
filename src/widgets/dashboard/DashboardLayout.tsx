@@ -9,6 +9,7 @@ import { useState } from 'react';
 import GlobalFilter from '@/features/filter/components/GlobalFilter';
 import DailyTrendChart from '@/features/daily-chart/components/DailyTrendChart';
 import PlatformDonutChart from '@/features/platform-chart/components/PlatformDonutChart';
+import CampaignRankingTop3 from '@/features/ranking/components/CampaignRankingTop3';
 import CampaignTable from '@/features/campaign-table/components/CampaignTable';
 import CampaignFormModal from '@/features/campaign-form/components/CampaignFormModal';
 
@@ -42,7 +43,10 @@ export default function DashboardLayout() {
 
       <DailyTrendChart />
 
-      <PlatformDonutChart />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <PlatformDonutChart />
+        <CampaignRankingTop3 />
+      </div>
 
       <CampaignTable onOpenModal={() => setIsModalOpen(true)} />
 
@@ -50,8 +54,6 @@ export default function DashboardLayout() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-
-      {/* Phase 7에서 랭킹 차트 추가 예정 */}
     </div>
   );
 }
