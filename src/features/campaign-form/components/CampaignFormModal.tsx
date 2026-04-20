@@ -42,13 +42,16 @@ export default function CampaignFormModal({
 
     createCampaign.mutate(
       {
-        id,
-        name: formData.name,
-        platform: formData.platform as Platform,
-        status: 'active',
-        budget: Number(formData.budget),
-        startDate: formData.startDate,
-        endDate: formData.endDate,
+        campaign: {
+          id,
+          name: formData.name,
+          platform: formData.platform as Platform,
+          status: 'active',
+          budget: Number(formData.budget),
+          startDate: formData.startDate,
+          endDate: formData.endDate,
+        },
+        initialCost: Number(formData.cost),
       },
       {
         onSuccess: () => {

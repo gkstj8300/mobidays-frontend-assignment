@@ -6,18 +6,47 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import type { ApiCampaign } from '@/types/api';
 import type { CampaignStatus } from '@/types/entities';
 
-import { createCampaign, updateCampaignStatus } from '../api/campaignApi';
-import { campaignKeys } from '../api/queryKeys';
+import {
+  createCampaign,
+  createDailyStat,
+  updateCampaignStatus,
+} from '../api/campaignApi';
+import { campaignKeys, dailyStatKeys } from '../api/queryKeys';
+
+interface CreateCampaignInput {
+  campaign: Omit<ApiCampaign, 'id'> & { id: string };
+  /** 등록 시점의 집행금액. > 0이면 초기 DailyStat을 함께 생성한다. */
+  initialCost?: number;
+}
 
 export const useCreateCampaign = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createCampaign,
+    mutationFn: async ({ campaign, initialCost }: CreateCampaignInput) => {
+      const created = await createCampaign(campaign);
+
+      if (initialCost !== undefined && initialCost > 0) {
+        await createDailyStat({
+          id: `NEW-STAT-${Date.now()}`,
+          campaignId: created.id,
+          date: created.startDate,
+          impressions: 0,
+          clicks: 0,
+          conversions: 0,
+          cost: initialCost,
+          conversionsValue: 0,
+        });
+      }
+
+      return created;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: campaignKeys.all });
+      queryClient.invalidateQueries({ queryKey: dailyStatKeys.all });
     },
   });
 };

@@ -32,3 +32,12 @@ export const updateCampaignStatus = (
     body: JSON.stringify({ status }),
   });
 };
+
+export const createDailyStat = (
+  stat: Omit<ApiDailyStat, 'id'> & { id: string },
+): Promise<ApiDailyStat> => {
+  return apiClient<ApiDailyStat>('/daily_stats', {
+    method: 'POST',
+    body: JSON.stringify(stat),
+  });
+};
